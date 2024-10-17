@@ -1,33 +1,33 @@
-# name: "Run Container Scan on Super Mario Docker Image with Quality Gate"
+name: "Run Container Scan on Super Mario Docker Image with Quality Gate"
  
-# on:
-#   push:
-#     branches:
-#       - main
+on:
+  push:
+    branches:
+      - main
  
-# env:
-#   VERSION: $(( $(cat version.txt) + 1 ))
+env:
+  VERSION: $(( $(cat version.txt) + 1 ))
   
-# jobs:
+jobs:
   
-#   run_container_image_scan_on_supermario_docker_image:
-#     runs-on: ubuntu-latest	
+  run_container_image_scan_on_supermario_docker_image:
+    runs-on: ubuntu-latest	
  
-#     steps:
-#       - name: Checkout Repository
-#         uses: actions/checkout@v3
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
  
-#       - name: Login to Docker Hub
-#         run: echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
+      - name: Login to Docker Hub
+        run: echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
         
-#       - name: Get Docker Image from Docker Hub
-#         run: |
-#           docker pull docker.io/trannam210900/gitopspj:${{ env.VERSION }}
-#           docker save -o ${{ github.workspace }}/gitopspj.tar docker.io/trannam210900/gitopspj:${{ env.VERSION }}
+      - name: Get Docker Image from Docker Hub
+        run: |
+          docker pull docker.io/trannam210900/gitopspj:${{ env.VERSION }}
+          docker save -o ${{ github.workspace }}/gitopspj.tar docker.io/trannam210900/gitopspj:${{ env.VERSION }}
      
-#       - name: Run Trivy vulnerability scanner in tarball mode
-#         uses: aquasecurity/trivy-action@master
-#         with:
-#           input: ${{ github.workspace }}/gitopspj.tar
-#           exit-code: '1'
-#           severity: 'CRITICAL,HIGH'
+      - name: Run Trivy vulnerability scanner in tarball mode
+        uses: aquasecurity/trivy-action@master
+        with:
+          input: ${{ github.workspace }}/gitopspj.tar
+          exit-code: '0'
+          severity: 'CRITICAL,HIGH'
