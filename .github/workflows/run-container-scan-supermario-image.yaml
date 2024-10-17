@@ -22,12 +22,12 @@ jobs:
         
       - name: Get Docker Image from Docker Hub
         run: |
-          docker pull trannam210900/gitopspj:${{ env.VERSION }}
-          docker save -o gitopspj.tar trannam210900/gitopspj:${{ env.VERSION }}
+          docker pull docker.io/trannam210900/gitopspj:${{ env.VERSION }}
+          docker save -o ${{ github.workspace }}/gitopspj.tar docker.io/trannam210900/gitopspj:${{ env.VERSION }}
      
       - name: Run Trivy vulnerability scanner in tarball mode
         uses: aquasecurity/trivy-action@master
         with:
-          input: /github/workspace/gitopspj.tar
+          input: ${{ github.workspace }}/gitopspj.tar
           exit-code: '1'
           severity: 'CRITICAL,HIGH'
